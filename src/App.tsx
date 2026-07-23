@@ -14,7 +14,8 @@ import {
   WorkScene,
 } from './components/Scenes';
 import { useStageMode } from './useStageTimeline';
-import { BRAND } from './config';
+import { ProjectModal } from './components/ProjectModal';
+import { BRAND, PROJECTS } from './config';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -27,6 +28,8 @@ export default function App() {
   const scrollerRef = useRef<HTMLDivElement>(null);
   const stageRef = useRef<HTMLDivElement>(null);
   const [bookingActive, setBookingActive] = useState(false);
+  const [cardsLive, setCardsLive] = useState(false);
+  const [selected, setSelected] = useState<(typeof PROJECTS)[number] | null>(null);
 
   // Reduced motion: everything is laid out statically, calendar always live.
   useEffect(() => {
@@ -105,26 +108,40 @@ export default function App() {
         .to(scene('booking'), { autoAlpha: 1, y: 0, duration: 0.6 }, 6.8);
 
       // --- CTA expands into the calendar ----------------------------------
+      // The shell animates height only. Its width jumps to full at the start of
+      // the expand so the Cal iframe never measures itself mid-tween and latch
+      // onto a narrow (mobile) layout.
       tl.to(
         '[data-cta]',
-        {
-          width: mobile ? '100%' : 'min(920px, 92vw)',
-          height: mobile ? '52vh' : '60vh',
-          borderRadius: 20,
-          backgroundColor: '#ffffff',
-          duration: 0.9,
-        },
+        { width: mobile ? '100%' : 'min(920px, 92vw)', duration: 0.15 },
         6.9,
       )
-        .to('[data-cta-face]', { autoAlpha: 0, duration: 0.3 }, 6.9)
-        .to('[data-cta-calendar]', { autoAlpha: 1, duration: 0.5 }, 7.3);
+        .to(
+          '[data-cta]',
+          {
+            height: mobile ? '68vh' : '62vh',
+            borderRadius: 20,
+            backgroundColor: '#ffffff',
+            duration: 0.9,
+          },
+          6.9,
+        )
+        .to('[data-cta-face]', { autoAlpha: 0, duration: 0.25 }, 6.9)
+        .to('[data-cta-calendar]', { autoAlpha: 1, duration: 0.5 }, 7.4);
 
       // Mount the embed slightly before it is revealed, unmount on reverse.
       ScrollTrigger.create({
         trigger: scroller,
         start: 'top top',
         end: 'bottom bottom',
-        onUpdate: (self) => setBookingActive(self.progress > 0.82),
+        onUpdate: (self) => {
+          // Mount only once the shell has reached full width, so the embed
+          // measures a desktop-width container and doesn't lock to mobile.
+          setBookingActive(self.progress > 0.9);
+          // Clickable only while they're readable project previews — not as
+          // slop cards, and not once they've faded for the process scene.
+          setCardsLive(self.progress > 0.14 && self.progress < 0.76);
+        },
       });
     }, stage);
 
@@ -143,7 +160,7 @@ export default function App() {
         <main className="min-h-screen bg-paper px-5 py-16 text-ink">
           <div className="mx-auto flex max-w-4xl flex-col gap-20">
             <CleanScene />
-            <MorphCards />
+            <MorphCards interactive onSelect={setSelected} />
             <ProblemScene />
             <ComparisonScene />
             <WorkScene />
@@ -156,6 +173,7 @@ export default function App() {
             </section>
           </div>
         </main>
+        <ProjectModal project={selected} onClose={() => setSelected(null)} />
       </>
     );
   }
@@ -193,7 +211,10 @@ export default function App() {
             {/* scene slot — all scenes stacked, only one visible at a time */}
             {/* `min-h` keeps the copy readable when the expanded CTA claims most
                 of the column on short viewports. */}
-            <div className="relative flex min-h-[190px] w-full flex-1 shrink-0 items-center justify-center sm:min-h-[240px]">
+            <div
+              data-scene-slot
+              className="relative flex min-h-[150px] w-full flex-1 shrink-0 items-center justify-center sm:min-h-[190px]"
+            >
               {[
                 <SlopScene key="slop" />,
                 <CleanScene key="clean" />,
@@ -215,7 +236,7 @@ export default function App() {
             </div>
 
             {/* shared card rack */}
-            <MorphCards />
+            <MorphCards interactive={cardsLive} onSelect={setSelected} />
 
             {/* shared CTA → calendar */}
             <BookingPanel active={bookingActive} />
@@ -234,6 +255,8 @@ export default function App() {
           </span>
         </div>
       </div>
+
+      <ProjectModal project={selected} onClose={() => setSelected(null)} />
     </>
   );
 }

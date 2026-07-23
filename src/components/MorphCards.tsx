@@ -1,23 +1,30 @@
 import { ArrowUpRight, Sparkles, TrendingUp, Zap } from 'lucide-react';
 import { PROJECTS } from '../config';
 
+type Props = {
+  /** Cards only accept clicks once they've become real project previews. */
+  interactive: boolean;
+  onSelect: (project: (typeof PROJECTS)[number]) => void;
+};
+
 /**
  * The shared card rack. The same four DOM nodes are fake AI dashboard cards in
  * the slop scene and real project previews later — only their inner layers
  * cross-fade, so nothing is ever re-mounted mid-timeline.
  */
-export function MorphCards() {
+export function MorphCards({ interactive, onSelect }: Props) {
   return (
     <div
       data-cards
-      className="grid w-full shrink-0 grid-cols-2 gap-3 overflow-hidden sm:gap-4 lg:grid-cols-4"
-      aria-hidden="true"
+      className="grid w-full shrink-0 grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4"
+      aria-hidden={!interactive}
     >
       {PROJECTS.slice(0, 4).map((project, i) => (
         <article
           key={project.name}
           data-card
-          className="relative isolate overflow-hidden rounded-2xl"
+          className="group relative isolate rounded-2xl transition-[transform,box-shadow] duration-300 ease-out data-[interactive=true]:cursor-pointer data-[interactive=true]:hover:-translate-y-1.5 data-[interactive=true]:hover:shadow-[0_18px_40px_-12px_rgba(22,21,15,0.35)]"
+          data-interactive={interactive}
           style={{ transformOrigin: '50% 50%' }}
         >
           {/* --- slop layer --- */}
@@ -51,26 +58,15 @@ export function MorphCards() {
             data-card-clean
             className="absolute inset-0 flex flex-col overflow-hidden rounded-2xl border border-line bg-white"
           >
-            {/* placeholder screenshot: a real HTML/CSS mini-interface */}
-            <div className="flex-1 p-2" style={{ background: project.accent }}>
-              <div className="flex h-full flex-col rounded-lg bg-white/95 p-2">
-                <div className="flex gap-1">
-                  <span className="h-1.5 w-1.5 rounded-full bg-line" />
-                  <span className="h-1.5 w-1.5 rounded-full bg-line" />
-                  <span className="h-1.5 w-1.5 rounded-full bg-line" />
-                </div>
-                <div className="mt-2 h-1.5 w-3/4 rounded-full bg-ink/70" />
-                <div className="mt-1.5 h-1 w-1/2 rounded-full bg-ink/25" />
-                <div
-                  className="mt-2 h-4 w-14 rounded-md"
-                  style={{ background: project.accent }}
-                />
-                <div className="mt-auto grid grid-cols-3 gap-1">
-                  <span className="h-3 rounded bg-paper-2" />
-                  <span className="h-3 rounded bg-paper-2" />
-                  <span className="h-3 rounded bg-paper-2" />
-                </div>
-              </div>
+            {/* real screenshot of the shipped site */}
+            <div className="flex-1 overflow-hidden" style={{ background: project.accent }}>
+              <img
+                src={project.cover}
+                alt={`${project.name} website`}
+                loading="lazy"
+                decoding="async"
+                className="h-full w-full object-cover object-top"
+              />
             </div>
             <div className="flex items-start justify-between gap-2 px-3 py-2.5">
               <div className="min-w-0">
@@ -79,9 +75,24 @@ export function MorphCards() {
                 </p>
                 <p className="truncate text-[10px] text-ink-soft">{project.sector}</p>
               </div>
-              <ArrowUpRight size={14} className="mt-0.5 shrink-0 text-ink-soft" />
+              <ArrowUpRight
+                size={14}
+                className="mt-0.5 shrink-0 text-ink-soft transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
+              />
             </div>
           </div>
+
+          {/* Click target. Only present once the cards are real previews, so the
+              slop scene stays inert. */}
+          {interactive && (
+            <button
+              type="button"
+              onClick={() => onSelect(project)}
+              className="absolute inset-0 z-10 rounded-2xl focus:outline-none focus-visible:ring-2 focus-visible:ring-ink focus-visible:ring-offset-2"
+            >
+              <span className="sr-only">View {project.name} project details</span>
+            </button>
+          )}
         </article>
       ))}
     </div>

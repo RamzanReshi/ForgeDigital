@@ -61,8 +61,10 @@ export function BookingPanel({ active, expanded }: Props) {
         className={`absolute inset-0 overflow-hidden rounded-2xl bg-white${expanded ? ' opacity-100' : ''}`}
         aria-hidden={!active}
       >
+        {/* `overscroll-auto` lets wheel/touch chain back to the page once the
+            calendar reaches its own end, so the stage is never a scroll trap. */}
         {active ? (
-          <div className="relative h-full w-full overflow-y-auto overscroll-contain">
+          <div className="relative h-full w-full overflow-y-auto overscroll-auto">
             {!ready && !placeholder && (
               <p className="absolute inset-0 flex items-center justify-center text-sm text-ink-soft">
                 Loading calendar…
@@ -75,9 +77,12 @@ export function BookingPanel({ active, expanded }: Props) {
                 your Cal.com username/event to load the live calendar.
               </p>
             ) : (
+              /* Cal fills the shell exactly and scrolls internally. A minHeight
+                 taller than the shell would make the iframe swallow page-scroll
+                 wheel events and strand the visitor on the booking scene. */
               <Cal
                 calLink={CAL_LINK}
-                style={{ width: '100%', height: '100%', minHeight: '520px', overflow: 'scroll' }}
+                style={{ width: '100%', height: '100%', overflow: 'hidden' }}
                 config={{ layout: 'month_view' }}
               />
             )}
