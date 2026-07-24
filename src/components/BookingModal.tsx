@@ -42,7 +42,7 @@ export function BookingProvider({ children }: { children: ReactNode }) {
           aria-label="Book a call"
         >
           <div className="absolute inset-0 bg-ink/70" onClick={close} aria-hidden="true" />
-          <div className="relative z-10 flex h-[85vh] max-h-[820px] w-full max-w-3xl flex-col border-2 border-ink bg-white">
+          <div className="relative z-10 flex h-[85vh] max-h-[820px] w-full max-w-3xl flex-col border-2 border-ink bg-white lg:max-w-6xl">
             <div className="flex items-center justify-between border-b border-line px-4 py-3">
               <span className="text-sm font-bold tracking-wide text-ink">
                 Book a free consultation
@@ -56,11 +56,12 @@ export function BookingProvider({ children }: { children: ReactNode }) {
                 <X size={22} aria-hidden="true" />
               </button>
             </div>
-            <div className="flex-1 overflow-auto">
+            <div className="flex-1 overflow-x-hidden overflow-y-auto">
               <Cal
                 calLink={CAL_LINK}
                 config={{ layout: 'month_view' }}
-                style={{ width: '100%', height: '100%' }}
+                className="h-full w-full lg:-mx-8 lg:w-[calc(100%+4rem)]"
+                style={{ height: '100%' }}
               />
             </div>
           </div>
