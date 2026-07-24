@@ -30,19 +30,19 @@ export function MorphCards({ interactive, onSelect }: Props) {
           {/* --- slop layer --- */}
           <div
             data-card-slop
-            className="rounded-3xl border border-white/20 bg-white/10 p-4 shadow-[0_0_60px_-12px_rgba(139,92,246,0.9)] backdrop-blur-md"
+            className="rounded-3xl border border-violet-200/80 bg-white/75 p-4 shadow-[0_10px_50px_-12px_rgba(139,92,246,0.55)] backdrop-blur-md"
           >
             <div className="flex items-center justify-between">
-              <span className="flex items-center gap-1.5 text-[10px] font-semibold tracking-widest text-fuchsia-200 uppercase">
+              <span className="flex items-center gap-1.5 text-[10px] font-semibold tracking-widest text-fuchsia-600 uppercase">
                 {i % 2 === 0 ? <Sparkles size={11} /> : <Zap size={11} />}
                 AI Metric
               </span>
-              <TrendingUp size={12} className="text-emerald-300" />
+              <TrendingUp size={12} className="text-emerald-500" />
             </div>
-            <p className="mt-3 bg-gradient-to-r from-fuchsia-300 to-cyan-300 bg-clip-text text-2xl font-black text-transparent sm:text-3xl">
+            <p className="mt-3 bg-gradient-to-r from-fuchsia-600 to-cyan-500 bg-clip-text text-2xl font-black text-transparent sm:text-3xl">
               {['+842%', '10.4×', '99.9%', '$2.4M'][i]}
             </p>
-            <p className="text-[10px] text-violet-200/80">
+            <p className="text-[10px] text-violet-900/60">
               {['Synergy uplift', 'Growth velocity', 'AI accuracy', 'Value unlocked'][i]}
             </p>
             {/* fake chart, pure CSS */}

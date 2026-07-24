@@ -8,13 +8,36 @@
   --color-line: #d6cdbd;
   --color-forge: #b4542a;
 
-  --font-sans: "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-sans: "Hanken Grotesk", system-ui, sans-serif;
   --font-display: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-display-serif: "Young Serif", Georgia, serif;
+}
+
+/* Home page: staggered hero fade-up */
+@keyframes home-fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(1.25rem);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.home-fade-up {
+  opacity: 0;
+  animation: home-fade-up 0.7s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+@media (prefers-reduced-motion: reduce) {
+  .home-fade-up {
+    animation: none;
+    opacity: 1;
+  }
 }
 
 html {
   scroll-behavior: auto;
-  background: #0a0616;
+  background: #ffffff;
 }
 
 body {
@@ -43,7 +66,7 @@ body {
 
 /* Fake chart bars (real CSS, no images) */
 .slop-bar {
-  background: linear-gradient(180deg, #a78bfa, #38bdf8);
+  background: linear-gradient(180deg, #8b5cf6, #06b6d4);
   border-radius: 3px;
   min-width: 3px;
 }

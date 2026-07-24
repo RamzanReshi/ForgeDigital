@@ -5,13 +5,13 @@ import { COMPARISON, PROCESS, PROJECTS } from '../config';
 export function SlopScene() {
   return (
     <div data-scene="slop" className="w-full text-center">
-      <p className="inline-flex items-center gap-2 rounded-full border border-white/25 bg-white/10 px-4 py-1.5 text-[11px] font-semibold tracking-widest text-violet-200 uppercase backdrop-blur">
+      <p className="inline-flex items-center gap-2 rounded-full border border-violet-300/70 bg-white/70 px-4 py-1.5 text-[11px] font-semibold tracking-widest text-violet-700 uppercase shadow-sm backdrop-blur">
         🚀 Next-Gen AI-Powered Synergy Platform
       </p>
-      <h1 className="mx-auto mt-5 max-w-4xl bg-gradient-to-r from-fuchsia-300 via-violet-200 to-cyan-300 bg-clip-text text-3xl leading-[1.05] font-black text-transparent drop-shadow-[0_0_30px_rgba(168,85,247,0.55)] sm:text-5xl lg:text-6xl">
+      <h1 className="mx-auto mt-5 max-w-4xl bg-gradient-to-r from-fuchsia-600 via-violet-600 to-cyan-500 bg-clip-text text-3xl leading-[1.05] font-black text-transparent drop-shadow-[0_2px_18px_rgba(168,85,247,0.35)] sm:text-5xl lg:text-6xl">
         Are you tired of AI giving you AI-slop websites?
       </h1>
-      <p className="mx-auto mt-4 max-w-2xl text-sm text-violet-200/80 sm:text-base">
+      <p className="mx-auto mt-4 max-w-2xl text-sm text-violet-900/70 sm:text-base">
         Generic gradients, empty copy, fake metrics and flashy sections that do nothing for your
         business.
       </p>

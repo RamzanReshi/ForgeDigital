@@ -193,10 +193,10 @@ export default function App() {
           {/* backdrops (cross-faded, never re-mounted) */}
           <div
             data-slop-bg
-            className="absolute inset-0 -z-10 bg-[#0a0616]"
+            className="absolute inset-0 -z-10 bg-white"
             aria-hidden="true"
           >
-            <div className="absolute inset-0 bg-[radial-gradient(70%_60%_at_20%_10%,rgba(168,85,247,0.55),transparent_60%),radial-gradient(60%_60%_at_85%_20%,rgba(34,211,238,0.4),transparent_60%),radial-gradient(80%_70%_at_50%_110%,rgba(236,72,153,0.35),transparent_60%)]" />
+            <div className="absolute inset-0 bg-[radial-gradient(70%_60%_at_20%_10%,rgba(168,85,247,0.42),transparent_62%),radial-gradient(60%_60%_at_85%_20%,rgba(34,211,238,0.38),transparent_62%),radial-gradient(80%_70%_at_50%_110%,rgba(236,72,153,0.32),transparent_62%)]" />
           </div>
           <div
             data-clean-bg
@@ -243,14 +243,14 @@ export default function App() {
 
             <p
               data-hint
-              className="flex items-center gap-2 text-[11px] tracking-widest text-violet-200/80 uppercase"
+              className="flex items-center gap-2 text-[11px] tracking-widest text-violet-700/80 uppercase"
             >
               <ChevronDown size={14} aria-hidden="true" />
               Scroll to fix the website
             </p>
           </main>
 
-          <span className="pointer-events-none absolute top-5 left-5 text-xs font-semibold tracking-widest text-white/40 uppercase mix-blend-difference">
+          <span className="pointer-events-none absolute top-5 left-5 text-xs font-semibold tracking-widest text-ink/40 uppercase">
             {BRAND}
           </span>
         </div>
