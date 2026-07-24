@@ -13,7 +13,11 @@ export function ScrollToHash() {
     const id = location.hash.slice(1);
     const scrollToTarget = () => {
       const el = document.getElementById(id);
-      if (el) el.scrollIntoView();
+      if (!el) return;
+      // If the target is (or lives inside) a <details>, open it so the content is visible.
+      const details = el.tagName === 'DETAILS' ? (el as HTMLDetailsElement) : el.closest('details');
+      if (details) details.open = true;
+      el.scrollIntoView();
     };
 
     const frame = requestAnimationFrame(scrollToTarget);

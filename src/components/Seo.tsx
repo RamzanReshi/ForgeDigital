@@ -9,7 +9,7 @@ type Props = {
 };
 
 /**
- * Per-page SEO/GEO metadata. Uses React 19 native document metadata hoisting —
+ * Per-page SEO/GEO metadata. Uses React 19 native document metadata hoisting:
  * these tags are rendered directly in the tree and React moves them into
  * <head> automatically, so no react-helmet or similar is needed.
  */

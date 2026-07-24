@@ -1,21 +1,22 @@
 import { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Menu, X } from 'lucide-react';
-import { BRAND } from '../config';
+import { Stamp } from './Stamp';
+import { CAL_LINK } from '../config';
 
 const serif = { fontFamily: 'var(--font-display-serif)' } as const;
 
-const HASH_LINKS = [
-  { label: 'Work', hash: '#work' },
-  { label: 'Process', hash: '#process' },
-  { label: 'Book', hash: '#book' },
+const ROUTE_LINKS = [
+  { label: 'Services', to: '/services' },
+  { label: 'Work', to: '/work' },
+  { label: 'About', to: '/about' },
 ];
 
 export function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
   const location = useLocation();
   const isHome = location.pathname === '/';
-  const withHash = (hash: string) => (isHome ? hash : `/${hash}`);
+  const navLinks = isHome ? ROUTE_LINKS : [{ label: 'Home', to: '/' }, ...ROUTE_LINKS];
 
   return (
     <header className="sticky top-0 z-40 border-b border-line bg-paper">
@@ -23,25 +24,16 @@ export function Header() {
         aria-label="Main"
         className="mx-auto flex h-14 max-w-[1280px] items-center justify-between px-5 md:h-16 md:px-8"
       >
-        <a href={isHome ? '#top' : '/'} className="text-lg tracking-tight" style={serif}>
-          {BRAND}
+        <a href={isHome ? '#top' : '/'} className="text-lg tracking-tight text-ink" style={serif}>
+          Forge <span className="text-forge">Digital</span>
         </a>
         <div className="hidden items-center gap-8 text-sm font-medium md:flex">
-          <Link to="/services" className="text-ink-soft transition hover:text-ink">
-            Services
-          </Link>
-          {HASH_LINKS.map((l) => (
-            <a
-              key={l.hash}
-              href={withHash(l.hash)}
-              className="text-ink-soft transition hover:text-ink"
-            >
+          {navLinks.map((l) => (
+            <Link key={l.to} to={l.to} className="text-ink-soft transition hover:text-ink">
               {l.label}
-            </a>
+            </Link>
           ))}
-          <Link to="/landing" className="text-forge transition hover:opacity-80">
-            The experience &rarr;
-          </Link>
+          <Stamp calLink={CAL_LINK} hold>Book a free consultation</Stamp>
         </div>
         <button
           type="button"
@@ -55,33 +47,20 @@ export function Header() {
       </nav>
       {menuOpen && (
         <div className="fixed inset-0 top-14 z-40 flex flex-col gap-2 bg-paper px-5 pt-10 md:hidden">
-          <Link
-            to="/services"
-            onClick={() => setMenuOpen(false)}
-            className="border-b border-line py-4 text-3xl text-ink"
-            style={serif}
-          >
-            Services
-          </Link>
-          {HASH_LINKS.map((l) => (
-            <a
-              key={l.hash}
-              href={withHash(l.hash)}
+          {navLinks.map((l) => (
+            <Link
+              key={l.to}
+              to={l.to}
               onClick={() => setMenuOpen(false)}
               className="border-b border-line py-4 text-3xl text-ink"
               style={serif}
             >
               {l.label}
-            </a>
+            </Link>
           ))}
-          <Link
-            to="/landing"
-            onClick={() => setMenuOpen(false)}
-            className="py-4 text-3xl text-forge"
-            style={serif}
-          >
-            The experience &rarr;
-          </Link>
+          <div className="mt-4" onClick={() => setMenuOpen(false)}>
+            <Stamp calLink={CAL_LINK} hold>Book a free consultation</Stamp>
+          </div>
         </div>
       )}
     </header>

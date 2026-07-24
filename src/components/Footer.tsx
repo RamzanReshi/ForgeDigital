@@ -1,13 +1,15 @@
-import { Link, useLocation } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { BRAND, CAL_LINK } from '../config';
 import { Stamp } from './Stamp';
 
 const serif = { fontFamily: 'var(--font-display-serif)' } as const;
 
-const HASH_LINKS = [
-  { label: 'Work', hash: '#work' },
-  { label: 'Process', hash: '#process' },
-  { label: 'Book', hash: '#book' },
+const NAV_LINKS = [
+  { label: 'Home', to: '/' },
+  { label: 'Services', to: '/services' },
+  { label: 'Work', to: '/work' },
+  { label: 'FAQ', to: '/services#faq' },
+  { label: 'About', to: '/about' },
 ];
 
 const SERVICE_LINKS = [
@@ -19,17 +21,13 @@ const SERVICE_LINKS = [
 ];
 
 export function Footer() {
-  const location = useLocation();
-  const isHome = location.pathname === '/';
-  const withHash = (hash: string) => (isHome ? hash : `/${hash}`);
-
   return (
     <footer className="bg-[#0e0d0a] py-10 sm:py-12">
       <div className="mx-auto max-w-[1280px] px-5 md:px-8">
         <div className="grid grid-cols-2 gap-8 md:grid-cols-4">
           <div className="col-span-2 md:col-span-1">
             <p className="text-xl text-white" style={serif}>
-              {BRAND}
+              Forge <span className="text-forge">Digital</span>
             </p>
             <p className="mt-3 max-w-xs text-sm text-white/60">
               Conversion-focused websites for service businesses that need more enquiries and
@@ -41,32 +39,16 @@ export function Footer() {
               Navigate
             </h3>
             <ul className="mt-4 space-y-2.5">
-              <li>
-                <Link
-                  to="/services"
-                  className="text-xs text-white/60 transition hover:text-white md:text-sm"
-                >
-                  Services
-                </Link>
-              </li>
-              {HASH_LINKS.map((l) => (
-                <li key={l.hash}>
-                  <a
-                    href={withHash(l.hash)}
+              {NAV_LINKS.map((l) => (
+                <li key={l.to}>
+                  <Link
+                    to={l.to}
                     className="text-xs text-white/60 transition hover:text-white md:text-sm"
                   >
                     {l.label}
-                  </a>
+                  </Link>
                 </li>
               ))}
-              <li>
-                <Link
-                  to="/landing"
-                  className="text-xs text-white/60 transition hover:text-white md:text-sm"
-                >
-                  The experience
-                </Link>
-              </li>
             </ul>
           </nav>
           <div>
@@ -94,7 +76,7 @@ export function Footer() {
               20 minutes, practical feedback, no pressure.
             </p>
             <div className="mt-5">
-              <Stamp href={`https://cal.com/${CAL_LINK}`} light>
+              <Stamp calLink={CAL_LINK} light>
                 Book on Cal.com
               </Stamp>
             </div>

@@ -1,9 +1,10 @@
+import { Link } from 'react-router-dom';
 import { Header } from '../components/Header';
 import { Footer } from '../components/Footer';
 import { Stamp } from '../components/Stamp';
 import { SectionIndex } from '../components/SectionIndex';
 import { Seo } from '../components/Seo';
-import { BRAND, SITE_URL, SERVICES } from '../config';
+import { BRAND, CAL_LINK, SITE_URL, SERVICES, FAQ } from '../config';
 
 const serif = { fontFamily: 'var(--font-display-serif)' } as const;
 
@@ -38,6 +39,18 @@ const JSON_LD = [
       })),
     },
   },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: FAQ.map((item) => ({
+      '@type': 'Question',
+      name: item.q,
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: item.a,
+      },
+    })),
+  },
 ];
 
 export default function Services() {
@@ -52,96 +65,78 @@ export default function Services() {
       <Header />
 
       <main>
-        {/* Hero */}
-        <section className="mx-auto max-w-[1280px] px-5 py-14 md:px-8 md:py-28">
-          <p
-            className="home-fade-up text-[11px] font-bold tracking-[0.2em] text-forge uppercase"
-            style={{ animationDelay: '0.05s' }}
-          >
-            Services — UK &amp; T&uuml;rkiye
-          </p>
-          <h1
-            className="home-fade-up mt-6 max-w-4xl text-4xl leading-[1.02] text-balance sm:text-5xl md:text-7xl"
-            style={{ ...serif, animationDelay: '0.15s' }}
-          >
-            Websites, SEO and GEO for service businesses that want more enquiries.
-          </h1>
-          <p
-            className="home-fade-up mt-6 max-w-[65ch] text-base leading-relaxed text-ink-soft md:text-lg"
-            style={{ animationDelay: '0.3s' }}
-          >
-            {SERVICES_DESCRIPTION} Below is the full list of what we do and what you get with each
-            one.
-          </p>
-          <div
-            className="home-fade-up mt-9 flex flex-wrap gap-5"
-            style={{ animationDelay: '0.45s' }}
-          >
-            <Stamp href="/#book" filled>
-              Book a free review
-            </Stamp>
-            <Stamp href="#services-list">See services</Stamp>
-          </div>
-        </section>
-
         {/* 01 — Services */}
         <section id="services-list" aria-labelledby="services-heading">
-          <div className="mx-auto max-w-[1280px] px-5 py-14 md:px-8 md:py-28">
+          <div className="mx-auto max-w-[1280px] px-5 py-10 md:px-8 md:py-16">
             <SectionIndex num="01" label="Services" />
-            <h2
+            <h1
               id="services-heading"
-              className="mt-6 max-w-2xl text-3xl leading-tight tracking-tight md:text-5xl"
+              className="mt-6 text-3xl leading-tight tracking-tight md:text-5xl"
               style={serif}
             >
               What we do, end to end.
-            </h2>
-            <p className="mt-4 max-w-[65ch] text-sm leading-relaxed text-ink-soft md:text-base">
+            </h1>
+            <p className="mt-4 text-sm leading-relaxed text-ink-soft md:text-base">
               Forge Digital designs, builds and maintains websites for service businesses across
-              the UK and Türkiye — from first sketch through to search visibility and long-term
-              care.
+              the UK and Türkiye. We handle it end to end, from the first sketch through to search
+              visibility and long-term care.
             </p>
 
-            <div className="mt-10 divide-y divide-line border-t border-b border-line">
+            <div className="mt-10 space-y-2">
               {SERVICES.map((service, i) => (
-                <article
+                <details
                   key={service.slug}
                   id={service.slug}
-                  className="scroll-mt-24 py-10 first:pt-0"
+                  className="group scroll-mt-24 py-4"
                 >
-                  <div className="grid gap-4 md:grid-cols-[80px_1fr]">
+                  <summary className="flex cursor-pointer list-none items-start gap-4 marker:content-none md:gap-6">
                     <span
                       aria-hidden="true"
-                      className="block text-4xl leading-none text-forge md:text-5xl"
+                      className="w-10 shrink-0 text-4xl leading-none text-forge md:w-20 md:text-5xl"
                       style={serif}
                     >
                       0{i + 1}
                     </span>
-                    <div>
-                      <h3 className="text-2xl tracking-tight md:text-3xl" style={serif}>
+                    <span className="flex-1">
+                      <span className="block text-2xl tracking-tight md:text-3xl" style={serif}>
                         {service.title}
-                      </h3>
-                      <p className="mt-1 text-sm font-bold text-ink-soft md:text-base">
+                      </span>
+                      <span className="mt-1 block text-sm font-bold text-ink-soft md:text-base">
                         {service.tagline}
-                      </p>
-                      <p className="mt-4 max-w-[65ch] text-sm leading-relaxed text-ink-soft md:text-base">
-                        {service.description}
-                      </p>
-                      <ul className="mt-5 space-y-2 border-t border-line pt-5">
-                        {service.includes.map((item) => (
-                          <li key={item} className="flex gap-3 text-sm text-ink-soft md:text-base">
-                            <span aria-hidden="true" className="text-forge">
-                              —
-                            </span>
-                            {item}
-                          </li>
-                        ))}
-                      </ul>
-                      <p className="mt-5 text-sm font-bold text-ink md:text-base">
-                        {service.outcome}
-                      </p>
-                    </div>
+                      </span>
+                    </span>
+                    <svg
+                      aria-hidden="true"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      className="mt-2 h-5 w-5 shrink-0 text-forge transition-transform duration-200 group-open:rotate-180"
+                    >
+                      <path d="m6 9 6 6 6-6" />
+                    </svg>
+                  </summary>
+                  <div className="mt-4 md:pl-[104px]">
+                    <p className="text-sm leading-relaxed text-ink-soft md:text-base">
+                      {service.description}
+                    </p>
+                    <ul className="mt-5 space-y-2 border-t border-line pt-5">
+                      {service.includes.map((item) => (
+                        <li key={item} className="flex gap-3 text-sm text-ink-soft md:text-base">
+                          <span aria-hidden="true" className="text-forge">
+                            &rarr;
+                          </span>
+                          {item}
+                        </li>
+                      ))}
+                    </ul>
+                    <p className="mt-5 text-sm font-bold text-ink md:text-base">
+                      {service.outcome}
+                    </p>
                   </div>
-                </article>
+                </details>
               ))}
             </div>
           </div>
@@ -149,7 +144,7 @@ export default function Services() {
 
         {/* 02 — Book */}
         <section id="book-cta" aria-labelledby="book-cta-heading">
-          <div className="mx-auto max-w-[1280px] px-5 py-14 md:px-8 md:py-28">
+          <div className="mx-auto max-w-[1280px] px-5 py-10 md:px-8 md:py-16">
             <SectionIndex num="02" label="Book" />
             <h2
               id="book-cta-heading"
@@ -158,14 +153,64 @@ export default function Services() {
             >
               Ready to see what changes?
             </h2>
-            <p className="mt-4 max-w-[60ch] text-sm leading-relaxed text-ink-soft md:text-base">
+            <p className="mt-4 text-sm leading-relaxed text-ink-soft md:text-base">
               20 minutes, practical feedback, no pressure. We'll look at your current site or plan
               and tell you honestly what would help.
             </p>
             <div className="mt-8">
-              <Stamp href="/#book" filled>
+              <Stamp calLink={CAL_LINK} filled>
                 Book your free website review
               </Stamp>
+            </div>
+          </div>
+        </section>
+
+        {/* 03 — FAQ */}
+        <section id="faq" aria-labelledby="faq-heading">
+          <div className="mx-auto max-w-[1280px] px-5 py-10 md:px-8 md:py-16">
+            <SectionIndex num="03" label="FAQ" />
+            <h2
+              id="faq-heading"
+              className="mt-6 max-w-2xl text-3xl leading-tight tracking-tight md:text-5xl"
+              style={serif}
+            >
+              Questions, answered.
+            </h2>
+            <div className="mt-8 divide-y divide-line border-t border-b border-line">
+              {FAQ.map((item) => {
+                const linkTo = 'linkTo' in item ? item.linkTo : undefined;
+                const linkLabel = 'linkLabel' in item ? item.linkLabel : undefined;
+                return (
+                  <details key={item.q} className="group py-5">
+                    <summary className="flex cursor-pointer list-none items-center justify-between gap-4 text-base font-bold tracking-tight text-ink marker:content-none md:text-lg" style={serif}>
+                      <span>{item.q}</span>
+                      <svg
+                        aria-hidden="true"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        className="h-5 w-5 shrink-0 text-forge transition-transform duration-200 group-open:rotate-180"
+                      >
+                        <path d="m6 9 6 6 6-6" />
+                      </svg>
+                    </summary>
+                    <p className="mt-3 text-sm leading-relaxed text-ink-soft md:text-base">
+                      {item.a}
+                    </p>
+                    {linkTo && (
+                      <Link
+                        to={linkTo}
+                        className="mt-3 inline-block text-sm font-bold text-forge transition hover:opacity-80"
+                      >
+                        {linkLabel} &rarr;
+                      </Link>
+                    )}
+                  </details>
+                );
+              })}
             </div>
           </div>
         </section>

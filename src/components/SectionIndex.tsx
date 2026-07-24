@@ -1,11 +1,11 @@
 const serif = { fontFamily: 'var(--font-display-serif)' } as const;
 
-/** Section index eyebrow: rule + numbered uppercase label + ghosted numeral. */
+/** Section index eyebrow: numbered uppercase label + ghosted numeral. */
 export function SectionIndex({ num, label }: { num: string; label: string }) {
   return (
-    <div className="relative border-t border-line pt-3">
-      <p className="text-[11px] font-bold tracking-[0.2em] text-ink-soft uppercase">
-        {num} — {label}
+    <div className="relative">
+      <p className="text-[11px] font-bold tracking-[0.2em] text-forge uppercase">
+        {num} &middot; {label}
       </p>
       <span
         aria-hidden="true"
