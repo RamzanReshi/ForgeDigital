@@ -1,9 +1,13 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import Cal from '@calcom/embed-react';
-import { Menu, X } from 'lucide-react';
-import { BRAND, CAL_LINK, PROJECTS, PROCESS, COMPARISON } from '../config';
+import { BRAND, CAL_LINK, SITE_URL, PROJECTS, PROCESS, COMPARISON, FAQ } from '../config';
 import { ProjectModal } from '../components/ProjectModal';
+import { Header } from '../components/Header';
+import { Footer } from '../components/Footer';
+import { Stamp } from '../components/Stamp';
+import { SectionIndex } from '../components/SectionIndex';
+import { Seo } from '../components/Seo';
 
 type Project = (typeof PROJECTS)[number];
 
@@ -11,122 +15,50 @@ const serif = { fontFamily: 'var(--font-display-serif)' } as const;
 
 const BOOKING_FACTS = ['20 minutes', 'Google Meet', 'Practical feedback', 'No pressure'];
 
-const NAV_LINKS = [
-  { label: 'Work', href: '#work' },
-  { label: 'Process', href: '#process' },
-  { label: 'Book', href: '#book' },
+const HOME_DESCRIPTION =
+  'We design conversion-focused websites for service businesses that want more enquiries, stronger credibility and a clearer customer journey.';
+
+const JSON_LD = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Organization',
+    name: BRAND,
+    url: SITE_URL,
+    description: HOME_DESCRIPTION,
+    areaServed: ['United Kingdom', 'Türkiye'],
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'WebSite',
+    name: BRAND,
+    url: SITE_URL,
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: FAQ.map((item) => ({
+      '@type': 'Question',
+      name: item.q,
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: item.a,
+      },
+    })),
+  },
 ];
-
-/** Stamp button: rectangular, 2px ink border, solid ink block offset behind. */
-function Stamp({
-  href,
-  children,
-  filled = false,
-  light = false,
-}: {
-  href: string;
-  children: React.ReactNode;
-  filled?: boolean;
-  light?: boolean;
-}) {
-  return (
-    <span className="relative inline-block">
-      <span
-        aria-hidden="true"
-        className={`absolute inset-0 translate-x-1 translate-y-1 ${light ? 'bg-white' : 'bg-ink'}`}
-      />
-      <a
-        href={href}
-        className={`relative inline-flex min-h-11 items-center justify-center border-2 px-6 py-2.5 text-sm font-bold tracking-wide transition-transform duration-150 hover:translate-x-1 hover:translate-y-1 focus:outline-none focus-visible:ring-2 focus-visible:ring-forge focus-visible:ring-offset-2 ${
-          light
-            ? 'border-white bg-[#0e0d0a] text-white'
-            : filled
-              ? 'border-ink bg-ink text-paper'
-              : 'border-ink bg-paper text-ink'
-        }`}
-      >
-        {children}
-      </a>
-    </span>
-  );
-}
-
-/** Section index eyebrow: rule + numbered uppercase label + ghosted numeral. */
-function SectionIndex({ num, label }: { num: string; label: string }) {
-  return (
-    <div className="relative border-t border-line pt-3">
-      <p className="text-[11px] font-bold tracking-[0.2em] text-ink-soft uppercase">
-        {num} — {label}
-      </p>
-      <span
-        aria-hidden="true"
-        className="pointer-events-none absolute -top-2 right-0 text-7xl leading-none text-ink opacity-[0.07] select-none md:text-9xl"
-        style={serif}
-      >
-        {num}
-      </span>
-    </div>
-  );
-}
 
 export default function Home() {
   const [selected, setSelected] = useState<Project | null>(null);
-  const [menuOpen, setMenuOpen] = useState(false);
 
   return (
     <div className="min-h-screen overflow-x-hidden bg-paper text-ink">
-      <header className="sticky top-0 z-40 border-b border-line bg-paper">
-        <nav
-          aria-label="Main"
-          className="mx-auto flex h-14 max-w-[1280px] items-center justify-between px-5 md:h-16 md:px-8"
-        >
-          <a href="#top" className="text-lg tracking-tight" style={serif}>
-            {BRAND}
-          </a>
-          <div className="hidden items-center gap-8 text-sm font-medium md:flex">
-            {NAV_LINKS.map((l) => (
-              <a key={l.href} href={l.href} className="text-ink-soft transition hover:text-ink">
-                {l.label}
-              </a>
-            ))}
-            <Link to="/landing" className="text-forge transition hover:opacity-80">
-              The experience &rarr;
-            </Link>
-          </div>
-          <button
-            type="button"
-            className="inline-flex min-h-11 min-w-11 items-center justify-center text-ink md:hidden"
-            aria-expanded={menuOpen}
-            aria-label={menuOpen ? 'Close menu' : 'Open menu'}
-            onClick={() => setMenuOpen((v) => !v)}
-          >
-            {menuOpen ? <X size={22} aria-hidden="true" /> : <Menu size={22} aria-hidden="true" />}
-          </button>
-        </nav>
-        {menuOpen && (
-          <div className="fixed inset-0 top-14 z-40 flex flex-col gap-2 bg-paper px-5 pt-10 md:hidden">
-            {NAV_LINKS.map((l) => (
-              <a
-                key={l.href}
-                href={l.href}
-                onClick={() => setMenuOpen(false)}
-                className="border-b border-line py-4 text-3xl text-ink"
-                style={serif}
-              >
-                {l.label}
-              </a>
-            ))}
-            <Link
-              to="/landing"
-              onClick={() => setMenuOpen(false)}
-              className="py-4 text-3xl text-forge"
-              style={serif}
-            >
-              The experience &rarr;
-            </Link>
-          </div>
-        )}
-      </header>
+      <Seo
+        title="Forge Digital — Professional websites that build trust"
+        description={HOME_DESCRIPTION}
+        path="/"
+        jsonLd={JSON_LD}
+      />
+      <Header />
 
       <main id="top">
         {/* Hero */}
@@ -147,8 +79,7 @@ export default function Home() {
             className="home-fade-up mt-6 max-w-[60ch] text-base leading-relaxed text-ink-soft md:text-lg"
             style={{ animationDelay: '0.3s' }}
           >
-            We design conversion-focused websites for service businesses that want more enquiries,
-            stronger credibility and a clearer customer journey.
+            {HOME_DESCRIPTION}
           </p>
           <div
             className="home-fade-up mt-9 flex flex-wrap gap-5"
@@ -163,7 +94,7 @@ export default function Home() {
             className="home-fade-up mt-10 flex flex-wrap divide-x divide-line border-t border-b border-line text-xs font-medium tracking-wide text-ink-soft uppercase"
             style={{ animationDelay: '0.55s' }}
           >
-            <li className="px-4 py-3 first:pl-0">5 live client sites</li>
+            <li className="px-4 py-3 first:pl-0">A dozen live client websites</li>
             <li className="px-4 py-3">Service businesses</li>
             <li className="px-4 py-3">UK &amp; T&uuml;rkiye</li>
           </ul>
@@ -306,82 +237,47 @@ export default function Home() {
             </div>
           </div>
         </section>
+
+        {/* 05 — FAQ */}
+        <section id="faq" aria-labelledby="faq-heading">
+          <div className="mx-auto max-w-[1280px] px-5 py-14 md:px-8 md:py-28">
+            <SectionIndex num="05" label="FAQ" />
+            <h2
+              id="faq-heading"
+              className="mt-6 max-w-2xl text-3xl leading-tight tracking-tight md:text-5xl"
+              style={serif}
+            >
+              Questions, answered.
+            </h2>
+            <div className="mt-8 divide-y divide-line border-t border-b border-line">
+              {FAQ.map((item) => {
+                const linkTo = 'linkTo' in item ? item.linkTo : undefined;
+                const linkLabel = 'linkLabel' in item ? item.linkLabel : undefined;
+                return (
+                  <details key={item.q} className="group py-5">
+                    <summary className="cursor-pointer list-none text-base font-bold tracking-tight text-ink marker:content-none md:text-lg" style={serif}>
+                      {item.q}
+                    </summary>
+                    <p className="mt-3 max-w-[65ch] text-sm leading-relaxed text-ink-soft md:text-base">
+                      {item.a}
+                    </p>
+                    {linkTo && (
+                      <Link
+                        to={linkTo}
+                        className="mt-3 inline-block text-sm font-bold text-forge transition hover:opacity-80"
+                      >
+                        {linkLabel} &rarr;
+                      </Link>
+                    )}
+                  </details>
+                );
+              })}
+            </div>
+          </div>
+        </section>
       </main>
 
-      <footer className="bg-[#0e0d0a] py-10 sm:py-12">
-        <div className="mx-auto max-w-[1280px] px-5 md:px-8">
-          <div className="grid grid-cols-2 gap-8 md:grid-cols-4">
-            <div className="col-span-2 md:col-span-1">
-              <p className="text-xl text-white" style={serif}>
-                {BRAND}
-              </p>
-              <p className="mt-3 max-w-xs text-sm text-white/60">
-                Conversion-focused websites for service businesses that need more enquiries and
-                stronger credibility.
-              </p>
-            </div>
-            <nav aria-label="Footer">
-              <h3 className="text-[10px] font-black tracking-widest text-white uppercase md:text-[11px]">
-                Navigate
-              </h3>
-              <ul className="mt-4 space-y-2.5">
-                {NAV_LINKS.map((l) => (
-                  <li key={l.href}>
-                    <a
-                      href={l.href}
-                      className="text-xs text-white/60 transition hover:text-white md:text-sm"
-                    >
-                      {l.label}
-                    </a>
-                  </li>
-                ))}
-                <li>
-                  <Link
-                    to="/landing"
-                    className="text-xs text-white/60 transition hover:text-white md:text-sm"
-                  >
-                    The experience
-                  </Link>
-                </li>
-              </ul>
-            </nav>
-            <div>
-              <h3 className="text-[10px] font-black tracking-widest text-white uppercase md:text-[11px]">
-                Services
-              </h3>
-              <ul className="mt-4 space-y-2.5">
-                {['Web design', 'Conversion strategy', 'SEO', 'Care & updates'].map((s) => (
-                  <li key={s}>
-                    <a
-                      href="#book"
-                      className="text-xs text-white/60 transition hover:text-white md:text-sm"
-                    >
-                      {s}
-                    </a>
-                  </li>
-                ))}
-              </ul>
-            </div>
-            <div className="col-span-2 md:col-span-1">
-              <h3 className="text-[10px] font-black tracking-widest text-white uppercase md:text-[11px]">
-                Book a call
-              </h3>
-              <p className="mt-4 max-w-xs text-xs text-white/60 md:text-sm">
-                20 minutes, practical feedback, no pressure.
-              </p>
-              <div className="mt-5">
-                <Stamp href={`https://cal.com/${CAL_LINK}`} light>
-                  Book on Cal.com
-                </Stamp>
-              </div>
-            </div>
-          </div>
-          <div className="mt-8 flex flex-col justify-between gap-2 border-t border-white/10 pt-6 text-[10px] tracking-widest text-white/30 uppercase sm:flex-row">
-            <p>&copy; 2026 {BRAND}</p>
-            <p>Websites that earn trust</p>
-          </div>
-        </div>
-      </footer>
+      <Footer />
 
       <ProjectModal project={selected} onClose={() => setSelected(null)} />
     </div>
