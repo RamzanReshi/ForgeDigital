@@ -84,7 +84,12 @@ export function Footer() {
         </div>
         <div className="mt-8 flex flex-col justify-between gap-2 border-t border-white/10 pt-6 text-[10px] tracking-widest text-white/30 uppercase sm:flex-row">
           <p>&copy; 2026 {BRAND}</p>
-          <p>Websites that earn trust</p>
+          <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:gap-6">
+            <Link to="/privacy" className="text-white/60 transition hover:text-white">
+              Privacy Policy
+            </Link>
+            <p>Websites that earn trust</p>
+          </div>
         </div>
       </div>
     </footer>

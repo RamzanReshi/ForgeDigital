@@ -13,6 +13,11 @@
   --font-display-serif: "Young Serif", Georgia, serif;
 }
 
+:focus-visible {
+  outline: 2px solid var(--color-forge);
+  outline-offset: 2px;
+}
+
 /* Home page: staggered hero fade-up */
 @keyframes home-fade-up {
   from {

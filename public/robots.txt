@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://forgedigital.co.uk/sitemap.xml

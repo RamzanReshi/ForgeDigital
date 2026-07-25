@@ -126,7 +126,7 @@ export function ProjectModal({ project, onClose }: Props) {
             <a
               href={project.href}
               target="_blank"
-              rel="noreferrer noopener"
+              rel="noopener noreferrer"
               className="mt-5 inline-flex items-center gap-2 rounded-xl bg-ink px-5 py-3 text-sm font-semibold text-white transition hover:opacity-90 focus:outline-none focus-visible:ring-2 focus-visible:ring-ink focus-visible:ring-offset-2"
             >
               Visit live site
