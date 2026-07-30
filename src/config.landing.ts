@@ -11,20 +11,26 @@ export const LANDING_TESTIMONIALS = [
   {
     quote:
       "Booking calls started coming in the first week and haven't stopped. Clean, fast, and it just works.",
+    rating: 5,
     name: 'Sufyan',
     title: 'ontimeremovals.co.uk',
+    href: 'https://www.ontimeremovals.co.uk',
   },
   {
     quote:
       'Student sign-ups went up and new parents find us through Google now. Fast, professional, and they kept every deadline.',
+    rating: 5,
     name: 'Aziz Hocam',
     title: 'sayginakademisporkulubu.com',
+    href: 'https://sayginakademisporkulubu.com',
   },
   {
     quote:
       'We needed a site to take dry ice orders. It was built from scratch quickly and customers come straight through WhatsApp now.',
+    rating: 5,
     name: 'Murat Bey',
     title: 'mrtkurubuz.com',
+    href: 'https://mrtkurubuz.com',
   },
 ] as const;
 

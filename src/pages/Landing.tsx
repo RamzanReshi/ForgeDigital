@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Star } from 'lucide-react';
 import { BRAND, CAL_LINK, SITE_URL, PROJECTS, PROCESS } from '../config';
 import { LANDING_TESTIMONIALS } from '../config.landing';
 import { Header } from '../components/Header';
@@ -27,22 +28,22 @@ const OUTCOMES = [
   {
     stat: '3-5x',
     label: 'More qualified enquiries',
-    desc: 'A site built to convert turns visits into real calls and messages, not just traffic.',
+    desc: 'Turns visits into real calls and messages',
   },
   {
     stat: '#1-3',
     label: 'Local Google rankings',
-    desc: 'Local SEO and structured data so customers find you before your competitors.',
+    desc: 'Helps customers find you before competitors',
   },
   {
     stat: '< 30s',
     label: 'From visit to message',
-    desc: 'A one-tap path to WhatsApp or a call removes the friction that kills conversions.',
+    desc: 'One-tap paths to WhatsApp or a call',
   },
   {
     stat: '24/7',
     label: 'Working while you sleep',
-    desc: 'The site keeps making the case for your business even when you are not at your desk.',
+    desc: 'Makes the case when you are offline',
   },
 ];
 
@@ -114,9 +115,46 @@ export default function Landing() {
           </div>
         </section>
 
+        <section id="testimonials" aria-labelledby="testimonials-heading">
+          <div className="mx-auto max-w-[1280px] px-5 py-10 md:px-8 md:py-16">
+            <SectionIndex num="01" label="What clients say" />
+            <h2 id="testimonials-heading" className="mt-6 text-3xl tracking-tight md:text-5xl" style={serif}>
+              Real businesses. Real results.
+            </h2>
+            <div className="mt-10 grid grid-cols-1 gap-4 md:grid-cols-3">
+              {LANDING_TESTIMONIALS.map((t) => (
+                <figure
+                  key={t.name}
+                  className="flex flex-col justify-between border border-line border-t-forge bg-white p-6"
+                >
+                  <div className="flex gap-1" aria-label={`${t.rating} out of 5 stars`}>
+                    {Array.from({ length: t.rating }).map((_, i) => (
+                      <Star key={i} size={15} className="fill-forge text-forge" aria-hidden="true" />
+                    ))}
+                  </div>
+                  <blockquote className="mt-5 text-base leading-relaxed text-ink md:text-lg">
+                    "{t.quote}"
+                  </blockquote>
+                  <figcaption className="mt-6 border-t border-line pt-4">
+                    <a
+                      href={t.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="group inline-block transition focus:outline-none focus-visible:ring-2 focus-visible:ring-forge"
+                    >
+                      <p className="text-sm font-bold text-ink transition group-hover:text-forge">{t.name}</p>
+                      <p className="text-xs text-ink-soft transition group-hover:text-forge">{t.title}</p>
+                    </a>
+                  </figcaption>
+                </figure>
+              ))}
+            </div>
+          </div>
+        </section>
+
         <section id="problems" aria-labelledby="problems-heading">
           <div className="mx-auto max-w-[1280px] px-5 py-10 md:px-8 md:py-16">
-            <SectionIndex num="01" label="Sound familiar?" />
+            <SectionIndex num="02" label="Sound familiar?" />
             <h2 id="problems-heading" className="mt-6 text-3xl tracking-tight md:text-5xl" style={serif}>
               Sound familiar?
             </h2>
@@ -138,7 +176,7 @@ export default function Landing() {
 
         <section id="outcomes" aria-labelledby="outcomes-heading">
           <div className="mx-auto max-w-[1280px] px-5 py-10 md:px-8 md:py-16">
-            <SectionIndex num="02" label="The outcome" />
+            <SectionIndex num="03" label="The outcome" />
             <h2 id="outcomes-heading" className="mt-6 text-3xl tracking-tight md:text-5xl" style={serif}>
               A site that pays for itself
             </h2>
@@ -153,7 +191,7 @@ export default function Landing() {
                     {o.stat}
                   </p>
                   <p className="mt-3 text-xs font-bold tracking-wide text-ink uppercase">{o.label}</p>
-                  <p className="mt-2 text-sm leading-relaxed text-ink-soft">{o.desc}</p>
+                  <p className="mt-2 text-sm leading-snug text-ink-soft">{o.desc}</p>
                 </article>
               ))}
             </div>
@@ -162,7 +200,7 @@ export default function Landing() {
 
         <section id="work" aria-labelledby="work-heading">
           <div className="mx-auto max-w-[1280px] px-5 py-10 md:px-8 md:py-16">
-            <SectionIndex num="03" label="Proof, not promises" />
+            <SectionIndex num="04" label="Proof, not promises" />
             <div className="mt-6 flex flex-wrap items-baseline justify-between gap-3">
               <h2 id="work-heading" className="text-3xl tracking-tight md:text-5xl" style={serif}>
                 Real sites. Real businesses.
@@ -206,28 +244,6 @@ export default function Landing() {
                 </li>
               ))}
             </ul>
-          </div>
-        </section>
-
-        <section id="testimonials" aria-labelledby="testimonials-heading">
-          <div className="mx-auto max-w-[1280px] px-5 py-10 md:px-8 md:py-16">
-            <SectionIndex num="04" label="What clients say" />
-            <h2 id="testimonials-heading" className="mt-6 text-3xl tracking-tight md:text-5xl" style={serif}>
-              Real businesses. Real results.
-            </h2>
-            <div className="mt-10 grid grid-cols-1 gap-4 md:grid-cols-3">
-              {LANDING_TESTIMONIALS.map((t) => (
-                <figure key={t.name} className="flex flex-col justify-between border border-line bg-white p-6">
-                  <blockquote className="text-sm leading-relaxed text-ink md:text-base">
-                    "{t.quote}"
-                  </blockquote>
-                  <figcaption className="mt-6 border-t border-line pt-4">
-                    <p className="text-sm font-bold text-ink">{t.name}</p>
-                    <p className="text-xs text-ink-soft">{t.title}</p>
-                  </figcaption>
-                </figure>
-              ))}
-            </div>
           </div>
         </section>
 
