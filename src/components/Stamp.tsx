@@ -8,6 +8,7 @@ export function Stamp({
   light = false,
   hold = false,
   calLink,
+  onClick,
 }: {
   href?: string;
   children: React.ReactNode;
@@ -16,6 +17,7 @@ export function Stamp({
   hold?: boolean;
   /** When set, clicking opens the Cal.com booking modal instead of navigating. */
   calLink?: string;
+  onClick?: () => void;
 }) {
   const { open } = useBooking();
 
@@ -39,6 +41,17 @@ export function Stamp({
         <button type="button" onClick={open} className={className}>
           {children}
         </button>
+      ) : onClick ? (
+        <a
+          href="#"
+          onClick={(e) => {
+            e.preventDefault();
+            onClick();
+          }}
+          className={className}
+        >
+          {children}
+        </a>
       ) : (
         <a href={href ?? '#'} className={className}>
           {children}
